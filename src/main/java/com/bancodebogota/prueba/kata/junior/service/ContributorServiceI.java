@@ -6,11 +6,11 @@ public interface ContributorServiceI {
 
     public Iterable<ContributorDto> getAllContributors();
     
-    public ContributorDto getContributorDto(Long id);
+    public ContributorDto getContributor(String id);
 
     public ContributorDto createContributor(ContributorDto contributorDto);
 
-    public ContributorDto updateContributor(Long id, ContributorDto contributorDto);
+    public ContributorDto updateContributor(String id, ContributorDto contributorDto);
 
-    public void deleteContributor(Long id);
+    public void deleteContributor(String id);
 }
