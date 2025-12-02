@@ -23,11 +23,10 @@ public class OnBoardingService implements OnBoardingServiceI {
     }
 
     @Override
-    public void createOnboardingForContributor(String contributorId, OnboardingModelDto onboardingDto) {
-        ContributorModel contributor = contributorRepository.findById(contributorId)
-                .orElseThrow(() -> new RuntimeException("Contributor not found with id: " + contributorId));
-
+    public void createOnboardingForContributor(ContributorModel contributor, OnboardingModelDto onboardingDto) {
         OnboardingModel onboarding = OnboardingModelDto.convertToEntity(onboardingDto, contributor);
+        contributor.getOnboardings().add(onboarding);
+        contributorRepository.save(contributor);
         onboardingRepository.save(onboarding);
     }
 

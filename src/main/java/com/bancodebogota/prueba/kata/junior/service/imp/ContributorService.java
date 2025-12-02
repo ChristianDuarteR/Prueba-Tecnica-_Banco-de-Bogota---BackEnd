@@ -54,7 +54,7 @@ public class ContributorService implements ContributorServiceI {
         ContributorModel contributorModel = contributorRepository.save(contributor);
         if (contributorDto.getOnboardings() != null) {
             for (OnboardingModelDto onboardingDto : contributorDto.getOnboardings()) {
-                onboardingService.createOnboardingForContributor(contributorModel.getContributorId(), onboardingDto);
+                onboardingService.createOnboardingForContributor(contributorModel, onboardingDto);
             }
         }
         ContributorModel savedContributor = contributorRepository.findById(contributor.getContributorId())
