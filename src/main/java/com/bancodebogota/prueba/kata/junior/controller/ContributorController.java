@@ -3,14 +3,7 @@ package com.bancodebogota.prueba.kata.junior.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.bancodebogota.prueba.kata.junior.dto.ContributorDto;
 import com.bancodebogota.prueba.kata.junior.exception.ContributorAlreadyExistsException;
@@ -18,8 +11,16 @@ import com.bancodebogota.prueba.kata.junior.exception.ContributorBadRequestExcep
 import com.bancodebogota.prueba.kata.junior.exception.ContributorNotFoundException;
 import com.bancodebogota.prueba.kata.junior.service.imp.ContributorService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/api/v1/contributors")
+@Tag(name = "Contributors", description = "Gestión de colaboradores del sistema")
 public class ContributorController {
 
     private final ContributorService contributorService;
@@ -28,6 +29,15 @@ public class ContributorController {
         this.contributorService = contributorService;
     }
 
+    @Operation(
+        summary = "Obtener todos los colaboradores",
+        description = "Retorna el listado completo de colaboradores registrados"
+    )
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Lista de colaboradores obtenida correctamente",
+            content = @Content(schema = @Schema(implementation = ContributorDto.class))),
+        @ApiResponse(responseCode = "404", description = "No se encontraron colaboradores")
+    })
     @GetMapping
     public ResponseEntity<Iterable<ContributorDto>> getContributors() throws ContributorNotFoundException {
         try{
@@ -38,6 +48,15 @@ public class ContributorController {
         }
     }
 
+    @Operation(
+        summary = "Obtener colaborador por email",
+        description = "Retorna la información de un colaborador según su correo electrónico"
+    )
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Colaborador encontrado",
+            content = @Content(schema = @Schema(implementation = ContributorDto.class))),
+        @ApiResponse(responseCode = "404", description = "Colaborador no encontrado")
+    })
     @GetMapping("/{email}")
     public ResponseEntity<ContributorDto> getContributor(@PathVariable String email) throws ContributorNotFoundException {
         try{
@@ -50,6 +69,15 @@ public class ContributorController {
         }
     }
 
+    @Operation(
+        summary = "Crear colaborador",
+        description = "Crea un nuevo colaborador en el sistema"
+    )
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "201", description = "Colaborador creado correctamente",
+            content = @Content(schema = @Schema(implementation = ContributorDto.class))),
+        @ApiResponse(responseCode = "400", description = "El colaborador ya existe o datos inválidos")
+    })
     @PostMapping
     public ResponseEntity<ContributorDto> createContributor(@RequestBody ContributorDto contributorDto) throws ContributorBadRequestException{
         try {
@@ -62,8 +90,21 @@ public class ContributorController {
         }
     }
     
+    @Operation(
+        summary = "Actualizar colaborador",
+        description = "Actualiza la información de un colaborador existente por email"
+    )
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "201", description = "Colaborador actualizado correctamente",
+            content = @Content(schema = @Schema(implementation = ContributorDto.class))),
+        @ApiResponse(responseCode = "400", description = "Datos inválidos"),
+        @ApiResponse(responseCode = "404", description = "Colaborador no encontrado")
+    })
     @PutMapping("/{email}")
-    public ResponseEntity<ContributorDto> updateContributor(@PathVariable String email, @RequestBody ContributorDto contributorDto) throws ContributorBadRequestException, ContributorNotFoundException {
+    public ResponseEntity<ContributorDto> updateContributor(
+            @PathVariable String email,
+            @RequestBody ContributorDto contributorDto
+    ) throws ContributorBadRequestException, ContributorNotFoundException {
         try {
             ContributorDto updatedContributor = contributorService.updateContributor(email, contributorDto);
             return ResponseEntity.status(HttpStatus.CREATED).body(updatedContributor);
@@ -78,7 +119,14 @@ public class ContributorController {
         }
     }
     
-
+    @Operation(
+        summary = "Eliminar colaborador",
+        description = "Elimina un colaborador del sistema mediante su email"
+    )
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "202", description = "Colaborador eliminado correctamente"),
+        @ApiResponse(responseCode = "404", description = "Colaborador no encontrado")
+    })
     @DeleteMapping("/{email}")
     public ResponseEntity<Void> deleteContributor(@PathVariable String email) throws ContributorNotFoundException {
         try {
@@ -91,5 +139,3 @@ public class ContributorController {
         }
     }
 }
-
-    

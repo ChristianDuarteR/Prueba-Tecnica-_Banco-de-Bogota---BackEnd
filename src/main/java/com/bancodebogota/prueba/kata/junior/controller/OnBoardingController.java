@@ -11,8 +11,16 @@ import com.bancodebogota.prueba.kata.junior.dto.OnBoardingDto;
 import com.bancodebogota.prueba.kata.junior.exception.OnboardingNotFoundException;
 import com.bancodebogota.prueba.kata.junior.service.imp.OnBoardingService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/api/v1/onboardings")
+@Tag(name = "Onboardings", description = "Gestión de procesos de onboarding")
 public class OnBoardingController {
 
     private OnBoardingService onBoardingService;
@@ -21,6 +29,21 @@ public class OnBoardingController {
         this.onBoardingService = onBoardingService;
     }
 
+    @Operation(
+        summary = "Obtener todos los onboardings",
+        description = "Retorna el listado completo de onboardings registrados en el sistema"
+    )
+    @ApiResponses(value = {
+        @ApiResponse(
+            responseCode = "200",
+            description = "Lista de onboardings obtenida correctamente",
+            content = @Content(schema = @Schema(implementation = OnBoardingDto.class))
+        ),
+        @ApiResponse(
+            responseCode = "404",
+            description = "No se encontraron onboardings"
+        )
+    })
     @GetMapping
     public ResponseEntity<Iterable<OnBoardingDto>> getOnboardings() {
         try {
