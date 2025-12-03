@@ -1,6 +1,9 @@
 package com.bancodebogota.prueba.kata.junior.dto;
 
 import java.sql.Date;
+import java.time.LocalDate;
+
+import org.springframework.cglib.core.Local;
 
 import com.bancodebogota.prueba.kata.junior.model.ContributorModel;
 import com.bancodebogota.prueba.kata.junior.model.OnboardingModel;
@@ -27,7 +30,7 @@ public class OnBoardingDto {
     private String title;
     
     @Column
-    private Date onBoardingTechnicalDateAssigned;           
+    private LocalDate onBoardingTechnicalDateAssigned;           
     
     @Column
     @JsonIgnore

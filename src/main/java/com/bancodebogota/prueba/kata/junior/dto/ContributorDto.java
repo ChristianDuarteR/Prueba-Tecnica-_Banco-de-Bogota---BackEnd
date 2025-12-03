@@ -1,6 +1,6 @@
 package com.bancodebogota.prueba.kata.junior.dto;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -15,7 +15,7 @@ public class ContributorDto {
     public String firstName;
     public String lastName;
     public String email;
-    public Date joinDate;
+    public LocalDate  joinDate;
     public List<OnBoardingDto> onboardings;
 
 

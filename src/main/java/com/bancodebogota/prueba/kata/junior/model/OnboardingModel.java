@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
 import java.sql.Date;
+import java.time.LocalDate;
+
 import com.bancodebogota.prueba.kata.junior.dto.OnBoardingDto;
 import com.bancodebogota.prueba.kata.junior.type.Type;
 
@@ -35,7 +37,7 @@ public class OnboardingModel {
     private ContributorModel contributor;
 
     @Column
-    private Date onBoardingTechnicalDateAssignedate;
+    private LocalDate onBoardingTechnicalDateAssignedate;
 
     public void updateFields(OnBoardingDto onboardingModelDto) {
         this.type = onboardingModelDto.getType();

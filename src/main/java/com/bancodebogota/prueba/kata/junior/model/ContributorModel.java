@@ -1,13 +1,11 @@
 package com.bancodebogota.prueba.kata.junior.model;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
 import com.bancodebogota.prueba.kata.junior.dto.ContributorDto;
 import com.bancodebogota.prueba.kata.junior.dto.OnBoardingDto;
 import com.bancodebogota.prueba.kata.junior.exception.ContributorBadRequestException;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -41,10 +39,10 @@ public class ContributorModel {
     public String email;
 
     @Column
-    public Date JoinDate;
+    public LocalDate JoinDate;
 
     @Column
-    public Date onBoardingTechnicalDateAssigned;
+    public LocalDate onBoardingTechnicalDateAssigned;
 
     @OneToMany(mappedBy = "contributor", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OnboardingModel> onboardings = new ArrayList<>();

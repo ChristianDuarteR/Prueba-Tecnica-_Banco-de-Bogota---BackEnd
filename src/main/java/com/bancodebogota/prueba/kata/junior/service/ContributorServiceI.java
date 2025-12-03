@@ -1,7 +1,10 @@
 package com.bancodebogota.prueba.kata.junior.service;
 
+import org.springframework.stereotype.Service;
+
 import com.bancodebogota.prueba.kata.junior.dto.ContributorDto;
 
+@Service
 public interface ContributorServiceI {
 
     public Iterable<ContributorDto> getAllContributors();
