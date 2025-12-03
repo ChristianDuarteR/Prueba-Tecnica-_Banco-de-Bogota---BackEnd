@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
 import java.sql.Date;
-import com.bancodebogota.prueba.kata.junior.dto.OnboardingModelDto;
+import com.bancodebogota.prueba.kata.junior.dto.OnBoardingDto;
 import com.bancodebogota.prueba.kata.junior.type.Type;
 
 @Entity
@@ -25,6 +25,9 @@ public class OnboardingModel {
     private Type type;
 
     @Column
+    private String title;
+
+    @Column
     private Boolean onBoardingStatus;
 
     @ManyToOne
@@ -34,7 +37,7 @@ public class OnboardingModel {
     @Column
     private Date onBoardingTechnicalDateAssignedate;
 
-    public void updateFields(OnboardingModelDto onboardingModelDto) {
+    public void updateFields(OnBoardingDto onboardingModelDto) {
         this.type = onboardingModelDto.getType();
         this.onBoardingStatus = onboardingModelDto.getOnBoardingStatus();
         this.onBoardingTechnicalDateAssignedate = onboardingModelDto.getOnBoardingTechnicalDateAssigned();

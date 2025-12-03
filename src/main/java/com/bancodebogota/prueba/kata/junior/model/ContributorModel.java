@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.bancodebogota.prueba.kata.junior.dto.ContributorDto;
-import com.bancodebogota.prueba.kata.junior.dto.OnboardingModelDto;
+import com.bancodebogota.prueba.kata.junior.dto.OnBoardingDto;
 import com.bancodebogota.prueba.kata.junior.exception.ContributorBadRequestException;
 
 import jakarta.persistence.CascadeType;
@@ -46,24 +46,29 @@ public class ContributorModel {
     @Column
     public Date onBoardingTechnicalDateAssigned;
 
-    @OneToMany(mappedBy = "contributor", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "contributor", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OnboardingModel> onboardings = new ArrayList<>();
 
 
-    public void updateFields(ContributorDto contributorDto) {
-        validateNotNull(contributorDto);
-        this.firstName = contributorDto.getFirstName();
-        this.lastName = contributorDto.getLastName();
-        this.email = contributorDto.getEmail();
-        this.JoinDate = contributorDto.getJoinDate();
-        if (contributorDto.getOnboardings() != null) {
-            this.onboardings = contributorDto.getOnboardings().stream()
-                .map(dto -> OnboardingModelDto.convertToEntity(dto, this))
-                .toList();
-        } else {
-            this.onboardings = null;
+public void updateFields(ContributorDto contributorDto) {
+    validateNotNull(contributorDto);
+
+    this.firstName = contributorDto.getFirstName();
+    this.lastName = contributorDto.getLastName();
+    this.email = contributorDto.getEmail();
+    this.JoinDate = contributorDto.getJoinDate();
+
+    if (contributorDto.getOnboardings() != null) {
+        this.onboardings.clear();
+        for (OnBoardingDto dto : contributorDto.getOnboardings()) {
+            OnboardingModel entity = OnBoardingDto.convertToEntity(dto, this);
+            this.onboardings.add(entity);
         }
+
+    } else {
+        this.onboardings.clear();
     }
+}
 
     public void validateNotNull(ContributorDto contributorDto) {
         if (contributorDto.getEmail() == null) {
