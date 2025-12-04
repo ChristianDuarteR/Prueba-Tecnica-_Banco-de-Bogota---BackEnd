@@ -8,15 +8,31 @@ import java.util.Optional;
 import com.bancodebogota.prueba.kata.junior.model.ContributorModel;
 import com.bancodebogota.prueba.kata.junior.model.OnboardingModel;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 import lombok.Data;
 
 @Data
 public class ContributorDto {
-    public String firstName;
-    public String lastName;
-    public String email;
-    public LocalDate  joinDate;
-    public List<OnBoardingDto> onboardings;
+
+    @NotBlank(message = "First name cannot be null or empty")
+    private String firstName;
+
+    @NotBlank(message = "Last name cannot be null or empty")
+    private String lastName;
+
+    @NotBlank(message = "Email cannot be null or empty")
+    @Email(message = "Email format is invalid")
+    private String email;
+
+    @NotNull(message = "Join date cannot be null")
+    @FutureOrPresent(message = "Join date must be today or a future date")
+    private LocalDate joinDate;
+
+    private List<OnBoardingDto> onboardings;
 
 
     public static ContributorDto convertToDto(ContributorModel model) {
@@ -25,16 +41,18 @@ public class ContributorDto {
         dto.setLastName(model.getLastName());
         dto.setEmail(model.getEmail());
         dto.setJoinDate(model.getJoinDate());
+
         dto.setOnboardings(
             Optional.ofNullable(model.getOnboardings())
-                    .orElse(Collections.emptyList())    
-                    .stream()
-                    .map(OnBoardingDto::convertToDto)
-                    .toList()
-);
+                .orElse(Collections.emptyList())
+                .stream()
+                .map(OnBoardingDto::convertToDto)
+                .toList()
+        );
 
         return dto;
     }
+
 
     public static ContributorModel convertToEntity(ContributorDto dto) {
 
@@ -54,6 +72,4 @@ public class ContributorDto {
 
         return model;
     }
-
-
 }

@@ -17,6 +17,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/contributors")
@@ -79,7 +80,7 @@ public class ContributorController {
         @ApiResponse(responseCode = "400", description = "El colaborador ya existe o datos inválidos")
     })
     @PostMapping
-    public ResponseEntity<ContributorDto> createContributor(@RequestBody ContributorDto contributorDto) throws ContributorBadRequestException{
+    public ResponseEntity<ContributorDto> createContributor(@Valid @RequestBody ContributorDto contributorDto) throws ContributorBadRequestException{
         try {
             ContributorDto createdContributor = contributorService.createContributor(contributorDto);
             return ResponseEntity.status(HttpStatus.CREATED).body(createdContributor);
@@ -103,7 +104,7 @@ public class ContributorController {
     @PutMapping("/{email}")
     public ResponseEntity<ContributorDto> updateContributor(
             @PathVariable String email,
-            @RequestBody ContributorDto contributorDto
+            @Valid @RequestBody ContributorDto contributorDto
     ) throws ContributorBadRequestException, ContributorNotFoundException {
         try {
             ContributorDto updatedContributor = contributorService.updateContributor(email, contributorDto);
