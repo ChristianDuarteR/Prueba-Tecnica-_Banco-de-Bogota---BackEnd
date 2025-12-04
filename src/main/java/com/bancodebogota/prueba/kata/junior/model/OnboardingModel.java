@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
-import java.sql.Date;
 import java.time.LocalDate;
 
 import com.bancodebogota.prueba.kata.junior.dto.OnBoardingDto;

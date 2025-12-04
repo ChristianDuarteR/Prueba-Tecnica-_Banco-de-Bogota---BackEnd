@@ -9,10 +9,10 @@ import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 @OpenAPIDefinition
 @SpringBootApplication
 @EnableScheduling
-public class Application {
+public class OnBoardingApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args);
+		SpringApplication.run(OnBoardingApplication.class, args);
 	}
 
 }

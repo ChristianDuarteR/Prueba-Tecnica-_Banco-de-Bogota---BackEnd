@@ -5,51 +5,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
             color: #333;
             max-width: 600px;
             margin: 0 auto;
             padding: 20px;
+            background: #f4f4f7;
         }
         .header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 30px;
+            padding: 30px 20px;
             border-radius: 10px 10px 0 0;
             text-align: center;
         }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
         .content {
-            background: #f9f9f9;
+            background: #ffffff;
             padding: 30px;
             border-radius: 0 0 10px 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
         .alert-box {
-            background: #fff3cd;
-            border-left: 4px solid #ffc107;
+            background: #cce5ff;
+            border-left: 4px solid #339af0;
             padding: 15px;
             margin: 20px 0;
             border-radius: 4px;
         }
         .info-box {
-            background: white;
+            background: #f9f9f9;
             padding: 20px;
             border-radius: 8px;
             margin: 20px 0;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
         }
         .info-row {
             display: flex;
             justify-content: space-between;
             padding: 10px 0;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid #e0e0e0;
         }
         .info-row:last-child {
             border-bottom: none;
         }
         .label {
             font-weight: bold;
-            color: #666;
+            color: #555;
         }
         .value {
             color: #333;
@@ -57,22 +63,35 @@
         .footer {
             text-align: center;
             margin-top: 30px;
-            color: #666;
+            color: #888;
             font-size: 12px;
+        }
+        a.button {
+            display: inline-block;
+            background-color: #667eea;
+            color: white !important;
+            padding: 10px 20px;
+            margin-top: 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        a.button:hover {
+            background-color: #5a67d8;
         }
     </style>
 </head>
 <body>
     <div class="header">
-        <h1> Recordatorio de Onboarding</h1>
+        <h1 th:text="'Recordatorio: ' + ${onboardingType}"></h1>
     </div>
     
     <div class="content">
         <p>Hola <strong th:text="${contributorName}"></strong>,</p>
         
         <div class="alert-box">
-            <strong> Recordatorio Importante</strong>
-            <p>Tu proceso de onboarding está próximo a vencer.</p>
+            <strong>Recordatorio:</strong>
+            <p>Tienes programada una reunión de onboarding próximamente.</p>
         </div>
         
         <div class="info-box">
@@ -81,7 +100,7 @@
                 <span class="value" th:text="${onboardingType}"></span>
             </div>
             <div class="info-row">
-                <span class="label">Fecha límite:</span>
+                <span class="label">Fecha de la reunión:</span>
                 <span class="value" th:text="${dueDate}"></span>
             </div>
             <div class="info-row">
@@ -90,10 +109,9 @@
             </div>
         </div>
         
-        <p>Por favor, asegúrate de completar este onboarding antes de la fecha indicada.</p>
-        
-        <p>Si ya completaste este proceso, ignora este mensaje y marca en el sistema como completado.</p>
-        
+        <p>Por favor, asegúrate de asistir a la reunión en la fecha indicada.</p>
+        <p>Si esto ya se hizo recuerdale a tu jefe inmediato de chequearla como completada</p>
+                
         <div class="footer">
             <p>Este es un mensaje automático del Sistema de Colaboradores.</p>
             <p>© 2024 Banco de Bogotá - Todos los derechos reservados</p>

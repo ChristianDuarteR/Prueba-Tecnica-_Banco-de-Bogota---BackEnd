@@ -3,6 +3,8 @@ package com.bancodebogota.prueba.kata.junior.model;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
+
 import com.bancodebogota.prueba.kata.junior.dto.ContributorDto;
 import com.bancodebogota.prueba.kata.junior.dto.OnBoardingDto;
 import com.bancodebogota.prueba.kata.junior.exception.ContributorBadRequestException;
@@ -68,16 +70,33 @@ public void updateFields(ContributorDto contributorDto) {
     }
 }
 
-    public void validateNotNull(ContributorDto contributorDto) {
-        if (contributorDto.getEmail() == null) {
-            throw new ContributorBadRequestException("Email cannot be null");
-        } if (contributorDto.getFirstName() == null) {
-            throw new ContributorBadRequestException("First name cannot be null");
-        } if (contributorDto.getLastName() == null) {
-            throw new ContributorBadRequestException("Last name cannot be null");
-        } if (contributorDto.getJoinDate() == null) {
-            throw new ContributorBadRequestException("Join date cannot be null");
-        } 
-        
+public void validateNotNull(ContributorDto contributorDto) {
+
+    if (contributorDto == null) {
+        throw new ContributorBadRequestException("Contributor cannot be null");
+    }
+    if (contributorDto.getEmail() == null || contributorDto.getEmail().isBlank()) {
+        throw new ContributorBadRequestException("Email cannot be null or empty");
+    }
+    if (!isValidEmail(contributorDto.getEmail())) {
+        throw new ContributorBadRequestException("Email format is invalid");
+    }
+    if (contributorDto.getFirstName() == null || contributorDto.getFirstName().isBlank()) {
+        throw new ContributorBadRequestException("First name cannot be null or empty");
+    }
+    if (contributorDto.getLastName() == null || contributorDto.getLastName().isBlank()) {
+        throw new ContributorBadRequestException("Last name cannot be null or empty");
+    }
+    if (contributorDto.getJoinDate() == null) {
+        throw new ContributorBadRequestException("Join date cannot be null");
+    }
+    if (contributorDto.getJoinDate().isBefore(LocalDate.now())) {
+        throw new ContributorBadRequestException("Join date must be today or a future date");
+    }
+}
+
+    private boolean isValidEmail(String email) {
+        String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+        return Pattern.matches(regex, email);
     }
 }

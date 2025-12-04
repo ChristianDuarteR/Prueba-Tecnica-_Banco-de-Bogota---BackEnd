@@ -1,10 +1,6 @@
 package com.bancodebogota.prueba.kata.junior.dto;
 
-import java.sql.Date;
 import java.time.LocalDate;
-
-import org.springframework.cglib.core.Local;
-
 import com.bancodebogota.prueba.kata.junior.model.ContributorModel;
 import com.bancodebogota.prueba.kata.junior.model.OnboardingModel;
 import com.bancodebogota.prueba.kata.junior.type.Type;

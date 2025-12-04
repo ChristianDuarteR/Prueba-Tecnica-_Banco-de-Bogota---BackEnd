@@ -45,7 +45,7 @@ public class EmailService implements EmailServiceI{
 
             helper.setFrom(fromEmail);
             helper.setTo(contributor.getEmail());
-            helper.setSubject(String.format("Recordatorio: Onboarding %s próximo a vencer", onboarding.getType()));
+            helper.setSubject(onboarding.getTitle());
 
             Context context = new Context();
             context.setVariable("contributorName", contributor.getFirstName() + " " + contributor.getLastName());
@@ -57,7 +57,7 @@ public class EmailService implements EmailServiceI{
             helper.setText(htmlContent, true);
 
             mailSender.send(message);
-            log.info("Email reminder sent to {} for {} onboarding", contributor.getEmail(), onboarding.getType());
+            log.info("Email reminder sent to {} for {} onboarding", contributor.getEmail(), onboarding.getTitle());
 
         } catch (MessagingException e) {
             log.error("Error sending email to {}: {}", contributor.getEmail(), e.getMessage(), e);
